@@ -6,32 +6,34 @@
 
 package utils
 
+type ErrCode string
+
 const (
-	RECODE_OK        = "0"
-	RECODE_DBERR     = "4001"
-	RECODE_NODATA    = "4002"
-	RECODE_DATAEXIST = "4003"
-	RECODE_DATAERR   = "4004"
+	RECODE_OK        ErrCode = "0"
+	RECODE_DBERR     ErrCode = "4001"
+	RECODE_NODATA    ErrCode = "4002"
+	RECODE_DATAEXIST ErrCode = "4003"
+	RECODE_DATAERR   ErrCode = "4004"
 
-	RECODE_SESSIONERR = "4101"
-	RECODE_LOGINERR   = "4102"
-	RECODE_PARAMERR   = "4103"
-	RECODE_USERONERR  = "4104"
-	RECODE_ROLEERR    = "4105"
-	RECODE_PWDERR     = "4106"
-	RECODE_USERERR    = "4107"
-	RECODE_SMSERR     = "4108"
-	RECODE_MOBILEERR  = "4109"
+	RECODE_SESSIONERR ErrCode = "4101"
+	RECODE_LOGINERR   ErrCode = "4102"
+	RECODE_PARAMERR   ErrCode = "4103"
+	RECODE_USERONERR  ErrCode = "4104"
+	RECODE_ROLEERR    ErrCode = "4105"
+	RECODE_PWDERR     ErrCode = "4106"
+	RECODE_USERERR    ErrCode = "4107"
+	RECODE_SMSERR     ErrCode = "4108"
+	RECODE_MOBILEERR  ErrCode = "4109"
 
-	RECODE_REQERR    = "4201"
-	RECODE_IPERR     = "4202"
-	RECODE_THIRDERR  = "4301"
-	RECODE_IOERR     = "4302"
-	RECODE_SERVERERR = "4500"
-	RECODE_UNKNOWERR = "4501"
+	RECODE_REQERR    ErrCode = "4201"
+	RECODE_IPERR     ErrCode = "4202"
+	RECODE_THIRDERR  ErrCode = "4301"
+	RECODE_IOERR     ErrCode = "4302"
+	RECODE_SERVERERR ErrCode = "4500"
+	RECODE_UNKNOWERR ErrCode = "4501"
 )
 
-var recodeText = map[string]string{
+var recodeText = map[ErrCode]string{
 	RECODE_OK:         "成功",
 	RECODE_DBERR:      "数据库查询错误",
 	RECODE_NODATA:     "无数据",
@@ -54,7 +56,7 @@ var recodeText = map[string]string{
 	RECODE_MOBILEERR:  "手机号错误",
 }
 
-func RecodeText(code string) string {
+func RecodeText(code ErrCode) string {
 	str, ok := recodeText[code]
 	if ok {
 		return str

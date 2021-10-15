@@ -2,21 +2,14 @@ package main
 
 import (
 	"log"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"helloworld/web/routers"
 )
 
 func main() {
+	router := routers.InitRouter()
 
-	router := gin.Default()
-
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"msg": "helloWorld",
-		})
-	})
-	if err := router.Run(":8080"); err != nil {
+	if err := router.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal(err)
 	}
 
