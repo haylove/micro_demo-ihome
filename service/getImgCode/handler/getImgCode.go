@@ -3,17 +3,16 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"github.com/afocus/captcha"
-	"google.golang.org/protobuf/types/known/emptypb"
-
+	"getImgCode/dao"
 	"getImgCode/proto/getImgCode"
 	"getImgCode/utils"
+	"github.com/afocus/captcha"
 )
 
 type GetImgCode struct{}
 
 // Call is a single request handler called via client.Call or the generated client code
-func (e *GetImgCode) Call(_ context.Context, _ *emptypb.Empty, rsp *getImgCode.Response) error {
+func (e *GetImgCode) Call(ctx context.Context, req *getImgCode.Request, rsp *getImgCode.Response) error {
 	c := captcha.New()
 	// 设置字体
 	err := c.SetFont("handler/static/font/comic.ttf")
@@ -22,6 +21,11 @@ func (e *GetImgCode) Call(_ context.Context, _ *emptypb.Empty, rsp *getImgCode.R
 	}
 
 	ImgCodeStr := utils.RandStr(6)
+	//TODO should log db error
+	go func() {
+		_ = dao.StoreImgCode(req.Uuid, ImgCodeStr)
+	}()
+
 	img := c.CreateCustom(ImgCodeStr)
 
 	stream, _ := json.Marshal(img)

@@ -8,7 +8,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"helloworld/web/controllers"
+	"helloworld/web/controllers/img"
+	"helloworld/web/controllers/user"
 )
 
 func InitRouter() *gin.Engine {
@@ -19,8 +20,8 @@ func InitRouter() *gin.Engine {
 
 	api := router.Group("/api/v1.0")
 	{
-		api.GET("/session", controllers.GetSession)
-		api.GET("/imagecode/:uuid", controllers.GetImageCode)
+		api.GET("/session", user.GetSession)
+		api.GET("/imagecode/:uuid", img.GetImageCode)
 
 	}
 

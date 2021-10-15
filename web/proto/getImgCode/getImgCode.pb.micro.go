@@ -6,7 +6,6 @@ package getImgCode
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	math "math"
 )
 
@@ -43,7 +42,7 @@ func NewGetImgCodeEndpoints() []*api.Endpoint {
 // Client API for GetImgCode service
 
 type GetImgCodeService interface {
-	Call(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*Response, error)
+	Call(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 }
 
 type getImgCodeService struct {
@@ -58,7 +57,7 @@ func NewGetImgCodeService(name string, c client.Client) GetImgCodeService {
 	}
 }
 
-func (c *getImgCodeService) Call(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*Response, error) {
+func (c *getImgCodeService) Call(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error) {
 	req := c.c.NewRequest(c.name, "GetImgCode.Call", in)
 	out := new(Response)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -71,12 +70,12 @@ func (c *getImgCodeService) Call(ctx context.Context, in *emptypb.Empty, opts ..
 // Server API for GetImgCode service
 
 type GetImgCodeHandler interface {
-	Call(context.Context, *emptypb.Empty, *Response) error
+	Call(context.Context, *Request, *Response) error
 }
 
 func RegisterGetImgCodeHandler(s server.Server, hdlr GetImgCodeHandler, opts ...server.HandlerOption) error {
 	type getImgCode interface {
-		Call(ctx context.Context, in *emptypb.Empty, out *Response) error
+		Call(ctx context.Context, in *Request, out *Response) error
 	}
 	type GetImgCode struct {
 		getImgCode
@@ -89,6 +88,6 @@ type getImgCodeHandler struct {
 	GetImgCodeHandler
 }
 
-func (h *getImgCodeHandler) Call(ctx context.Context, in *emptypb.Empty, out *Response) error {
+func (h *getImgCodeHandler) Call(ctx context.Context, in *Request, out *Response) error {
 	return h.GetImgCodeHandler.Call(ctx, in, out)
 }

@@ -1,14 +1,16 @@
 syntax = "proto3";
 
 package getImgCode;
-//option go_package=".getImgCode";
+option go_package="./";
 
-import "google/protobuf/empty.proto";
 
 service GetImgCode {
-  rpc Call(google.protobuf.Empty) returns (Response) {}
+  rpc Call(Request) returns (Response) {}
 }
 
+message Request {
+  string  uuid = 1;
+}
 
 message Response {
   bytes  img = 1;

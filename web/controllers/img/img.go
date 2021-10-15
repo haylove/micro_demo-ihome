@@ -4,7 +4,7 @@
  *@author     11726
  */
 
-package controllers
+package img
 
 import (
 	"context"
@@ -18,14 +18,13 @@ import (
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-plugins/registry/consul/v2"
 
-	"google.golang.org/protobuf/types/known/emptypb"
-
 	"helloworld/web/proto/getImgCode"
 	"helloworld/web/response"
 	"helloworld/web/utils"
 )
 
 func GetImageCode(ctx *gin.Context) {
+	uuid := ctx.Param("uuid")
 	newRegistry := consul.NewRegistry(registry.Addrs("127.0.0.1:8500"))
 	// New Service
 	client := micro.NewService(
@@ -34,7 +33,7 @@ func GetImageCode(ctx *gin.Context) {
 
 	service := getImgCode.NewGetImgCodeService("go.micro.service.getImgCode", client.Client())
 
-	call, err := service.Call(context.TODO(), &emptypb.Empty{})
+	call, err := service.Call(context.TODO(), &getImgCode.Request{Uuid: uuid})
 	if err != nil {
 		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_UNKNOWERR)
 		return
@@ -47,5 +46,5 @@ func GetImageCode(ctx *gin.Context) {
 		return
 	}
 
-	png.Encode(ctx.Writer, img)
+	_ = png.Encode(ctx.Writer, img)
 }

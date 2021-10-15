@@ -4,7 +4,7 @@
  *@author     11726
  */
 
-package controllers
+package user
 
 import (
 	"net/http"
