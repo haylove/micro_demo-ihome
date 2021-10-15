@@ -1,0 +1,15 @@
+syntax = "proto3";
+package smscode;
+option go_package=".;smscode";
+
+service SmsCode{
+  rpc SendSms(SmsRequest) returns (SmsResponse) {}
+}
+
+message SmsRequest{
+  string phone = 1;
+}
+
+message SmsResponse{
+  bool is_send = 1;
+}

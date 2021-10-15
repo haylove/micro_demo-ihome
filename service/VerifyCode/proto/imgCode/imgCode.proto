@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package imgCode;
+option go_package = ".;imgCode";
+
+
+service ImgCode {
+  rpc Get(Request) returns (Response) {}
+  rpc Check(CheckRequest) returns (CheckResponse) {}
+}
+
+message Request {
+  string  uuid = 1;
+}
+
+message Response {
+  bytes  img = 1;
+}
+
+
+message CheckRequest{
+  string  uuid = 1;
+  string imgCode = 2;
+}
+
+message CheckResponse{
+  bool is_correct = 1;
+}
+

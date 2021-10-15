@@ -6,15 +6,16 @@ import (
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-plugins/registry/consul/v2"
 
-	"getImgCode/handler"
-	getImgCode "getImgCode/proto/getImgCode"
+	"VerifyCode/handler"
+	imgCode "VerifyCode/proto/imgCode"
+	smsCode "VerifyCode/proto/smsCode"
 )
 
 func main() {
 	newRegistry := consul.NewRegistry(registry.Addrs("127.0.0.1:8500"))
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.service.getImgCode"),
+		micro.Name("go.micro.service.imgCode"),
 		micro.Version("latest"),
 		micro.Registry(newRegistry),
 	)
@@ -23,7 +24,8 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	_ = getImgCode.RegisterGetImgCodeHandler(service.Server(), new(handler.GetImgCode))
+	_ = imgCode.RegisterImgCodeHandler(service.Server(), new(handler.ImgCode))
+	_ = smsCode.RegisterSmsCodeHandler(service.Server(), new(handler.SmsCode))
 
 	// Run service
 	if err := service.Run(); err != nil {

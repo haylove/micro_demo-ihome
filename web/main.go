@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"helloworld/web/routers"
+	"web/routers"
 )
 
 func main() {
