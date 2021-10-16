@@ -22,7 +22,8 @@ import (
 
 func GetSmsCode(ctx *gin.Context) {
 	phone := ctx.Param("phone")
-	if len(phoneCompile.FindString(phone)) == 0 {
+
+	if len(phoneCompile.FindStringSubmatch(phone)) == 0 {
 		response.Err(ctx, http.StatusBadRequest, utils.RECODE_MOBILEERR)
 		return
 	}
@@ -42,6 +43,7 @@ func GetSmsCode(ctx *gin.Context) {
 		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_UNKNOWERR)
 		return
 	}
+	response.Normal(ctx, http.StatusOK, gin.H{"msg": "发送成功"})
 }
 
 func getSmsServer() smscode.SmsCodeService {

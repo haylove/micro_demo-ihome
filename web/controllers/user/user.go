@@ -10,8 +10,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"helloworld/web/response"
-	"helloworld/web/utils"
+	"web/response"
+	"web/utils"
 )
 
 func GetSession(ctx *gin.Context) {

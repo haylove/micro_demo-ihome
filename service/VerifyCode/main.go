@@ -15,7 +15,7 @@ func main() {
 	newRegistry := consul.NewRegistry(registry.Addrs("127.0.0.1:8500"))
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.service.imgCode"),
+		micro.Name("go.micro.service.code"),
 		micro.Version("latest"),
 		micro.Registry(newRegistry),
 	)

@@ -8,7 +8,7 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"helloworld/web/utils"
+	"web/utils"
 )
 
 func Err(ctx *gin.Context, statusCode int, ErrCode utils.ErrCode) {

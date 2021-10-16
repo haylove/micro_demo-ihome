@@ -9,6 +9,7 @@ package code
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"image/png"
 	"net/http"
 	"regexp"
@@ -27,7 +28,7 @@ import (
 var phoneCompile *regexp.Regexp
 
 func init() {
-	phoneCompile = regexp.MustCompile(`^1[3-9]/d{9}$`)
+	phoneCompile = regexp.MustCompile(`^1[3-9]\d{9}$`)
 }
 
 func GetImageCode(ctx *gin.Context) {
@@ -36,6 +37,7 @@ func GetImageCode(ctx *gin.Context) {
 	service := getImgServer()
 
 	call, err := service.Get(context.TODO(), &imgCode.Request{Uuid: uuid})
+	fmt.Println(err)
 	if err != nil {
 		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_UNKNOWERR)
 		return
