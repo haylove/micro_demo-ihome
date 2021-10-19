@@ -43,6 +43,7 @@ func NewSmsCodeEndpoints() []*api.Endpoint {
 
 type SmsCodeService interface {
 	SendSms(ctx context.Context, in *SmsRequest, opts ...client.CallOption) (*SmsResponse, error)
+	Check(ctx context.Context, in *CheckRequest, opts ...client.CallOption) (*CheckResponse, error)
 }
 
 type smsCodeService struct {
@@ -67,15 +68,27 @@ func (c *smsCodeService) SendSms(ctx context.Context, in *SmsRequest, opts ...cl
 	return out, nil
 }
 
+func (c *smsCodeService) Check(ctx context.Context, in *CheckRequest, opts ...client.CallOption) (*CheckResponse, error) {
+	req := c.c.NewRequest(c.name, "SmsCode.Check", in)
+	out := new(CheckResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for SmsCode service
 
 type SmsCodeHandler interface {
 	SendSms(context.Context, *SmsRequest, *SmsResponse) error
+	Check(context.Context, *CheckRequest, *CheckResponse) error
 }
 
 func RegisterSmsCodeHandler(s server.Server, hdlr SmsCodeHandler, opts ...server.HandlerOption) error {
 	type smsCode interface {
 		SendSms(ctx context.Context, in *SmsRequest, out *SmsResponse) error
+		Check(ctx context.Context, in *CheckRequest, out *CheckResponse) error
 	}
 	type SmsCode struct {
 		smsCode
@@ -90,4 +103,8 @@ type smsCodeHandler struct {
 
 func (h *smsCodeHandler) SendSms(ctx context.Context, in *SmsRequest, out *SmsResponse) error {
 	return h.SmsCodeHandler.SendSms(ctx, in, out)
+}
+
+func (h *smsCodeHandler) Check(ctx context.Context, in *CheckRequest, out *CheckResponse) error {
+	return h.SmsCodeHandler.Check(ctx, in, out)
 }

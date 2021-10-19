@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/afocus/captcha"
 
@@ -23,6 +24,7 @@ func (e *ImgCode) Get(_ context.Context, req *imgCode.Request, rsp *imgCode.Resp
 	}
 
 	ImgCodeStr := utils.RandStr(6)
+	fmt.Println(ImgCodeStr)
 	//TODO should log db error
 	go func() {
 		_ = dao.StoreCode(req.Uuid, ImgCodeStr)
@@ -37,13 +39,12 @@ func (e *ImgCode) Get(_ context.Context, req *imgCode.Request, rsp *imgCode.Resp
 }
 
 func (e *ImgCode) Check(ctx context.Context, request *imgCode.CheckRequest, response *imgCode.CheckResponse) error {
-	isExist, err := dao.CheckImgCode(request.Uuid, request.ImgCode)
+	exist, err := dao.CheckCode(request.Uuid, request.ImgCode)
 	if err != nil {
 		return err
 	}
 
-	if isExist {
-		response.IsCorrect = true
-	}
+	response.IsCorrect = exist
+
 	return nil
 }

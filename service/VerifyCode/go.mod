@@ -1,6 +1,6 @@
 module VerifyCode
 
-go 1.16
+go 1.14
 
 require (
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868

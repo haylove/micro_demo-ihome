@@ -114,6 +114,108 @@ func (x *SmsResponse) GetIsSend() bool {
 	return false
 }
 
+type CheckRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Phone   string `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	SmsCode string `protobuf:"bytes,2,opt,name=smsCode,proto3" json:"smsCode,omitempty"`
+}
+
+func (x *CheckRequest) Reset() {
+	*x = CheckRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_smscode_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckRequest) ProtoMessage() {}
+
+func (x *CheckRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_smscode_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckRequest.ProtoReflect.Descriptor instead.
+func (*CheckRequest) Descriptor() ([]byte, []int) {
+	return file_smscode_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CheckRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *CheckRequest) GetSmsCode() string {
+	if x != nil {
+		return x.SmsCode
+	}
+	return ""
+}
+
+type CheckResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IsCorrect bool `protobuf:"varint,1,opt,name=is_correct,json=isCorrect,proto3" json:"is_correct,omitempty"`
+}
+
+func (x *CheckResponse) Reset() {
+	*x = CheckResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_smscode_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckResponse) ProtoMessage() {}
+
+func (x *CheckResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_smscode_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckResponse.ProtoReflect.Descriptor instead.
+func (*CheckResponse) Descriptor() ([]byte, []int) {
+	return file_smscode_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CheckResponse) GetIsCorrect() bool {
+	if x != nil {
+		return x.IsCorrect
+	}
+	return false
+}
+
 var File_smscode_proto protoreflect.FileDescriptor
 
 var file_smscode_proto_rawDesc = []byte{
@@ -123,12 +225,23 @@ var file_smscode_proto_rawDesc = []byte{
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x22, 0x26, 0x0a, 0x0b,
 	0x53, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x69,
 	0x73, 0x5f, 0x73, 0x65, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x69, 0x73,
-	0x53, 0x65, 0x6e, 0x64, 0x32, 0x41, 0x0a, 0x07, 0x53, 0x6d, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x12,
+	0x53, 0x65, 0x6e, 0x64, 0x22, 0x3e, 0x0a, 0x0c, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x6d,
+	0x73, 0x43, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x6d, 0x73,
+	0x43, 0x6f, 0x64, 0x65, 0x22, 0x2e, 0x0a, 0x0d, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x73, 0x5f, 0x63, 0x6f, 0x72, 0x72,
+	0x65, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x43, 0x6f, 0x72,
+	0x72, 0x65, 0x63, 0x74, 0x32, 0x7b, 0x0a, 0x07, 0x53, 0x6d, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x12,
 	0x36, 0x0a, 0x07, 0x53, 0x65, 0x6e, 0x64, 0x53, 0x6d, 0x73, 0x12, 0x13, 0x2e, 0x73, 0x6d, 0x73,
 	0x63, 0x6f, 0x64, 0x65, 0x2e, 0x53, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
 	0x14, 0x2e, 0x73, 0x6d, 0x73, 0x63, 0x6f, 0x64, 0x65, 0x2e, 0x53, 0x6d, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0b, 0x5a, 0x09, 0x2e, 0x3b, 0x73, 0x6d, 0x73,
-	0x63, 0x6f, 0x64, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x38, 0x0a, 0x05, 0x43, 0x68, 0x65, 0x63, 0x6b,
+	0x12, 0x15, 0x2e, 0x73, 0x6d, 0x73, 0x63, 0x6f, 0x64, 0x65, 0x2e, 0x43, 0x68, 0x65, 0x63, 0x6b,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x73, 0x6d, 0x73, 0x63, 0x6f, 0x64,
+	0x65, 0x2e, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0x0b, 0x5a, 0x09, 0x2e, 0x3b, 0x73, 0x6d, 0x73, 0x63, 0x6f, 0x64, 0x65, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -143,16 +256,20 @@ func file_smscode_proto_rawDescGZIP() []byte {
 	return file_smscode_proto_rawDescData
 }
 
-var file_smscode_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_smscode_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_smscode_proto_goTypes = []interface{}{
-	(*SmsRequest)(nil),  // 0: smscode.SmsRequest
-	(*SmsResponse)(nil), // 1: smscode.SmsResponse
+	(*SmsRequest)(nil),    // 0: smscode.SmsRequest
+	(*SmsResponse)(nil),   // 1: smscode.SmsResponse
+	(*CheckRequest)(nil),  // 2: smscode.CheckRequest
+	(*CheckResponse)(nil), // 3: smscode.CheckResponse
 }
 var file_smscode_proto_depIdxs = []int32{
 	0, // 0: smscode.SmsCode.SendSms:input_type -> smscode.SmsRequest
-	1, // 1: smscode.SmsCode.SendSms:output_type -> smscode.SmsResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: smscode.SmsCode.Check:input_type -> smscode.CheckRequest
+	1, // 2: smscode.SmsCode.SendSms:output_type -> smscode.SmsResponse
+	3, // 3: smscode.SmsCode.Check:output_type -> smscode.CheckResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -188,6 +305,30 @@ func file_smscode_proto_init() {
 				return nil
 			}
 		}
+		file_smscode_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_smscode_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -195,7 +336,7 @@ func file_smscode_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_smscode_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

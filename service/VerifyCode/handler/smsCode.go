@@ -29,3 +29,14 @@ func (s SmsCode) SendSms(_ context.Context, request *smscode.SmsRequest, respons
 	response.IsSend = true
 	return nil
 }
+
+//todo：冗余，考虑优化
+func (s SmsCode) Check(ctx context.Context, req *smscode.CheckRequest, res *smscode.CheckResponse) error {
+	exist, err := dao.CheckCode("sms_"+req.Phone, req.SmsCode)
+	fmt.Println("sms", err)
+	if err != nil {
+		return err
+	}
+	res.IsCorrect = exist
+	return nil
+}

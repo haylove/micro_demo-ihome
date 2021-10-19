@@ -32,9 +32,9 @@ func StoreCode(key, Code string) error {
 	return nil
 }
 
-func CheckImgCode(key, imgCode string) (isExist bool, err error) {
+func CheckCode(key, Code string) (isExist bool, err error) {
 	conn := redisPool.Get()
 	defer conn.Close()
 	code, err := redis.String(conn.Do("get", key))
-	return strings.ToLower(code) == strings.ToLower(imgCode), nil
+	return strings.ToLower(code) == strings.ToLower(Code), nil
 }

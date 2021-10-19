@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package go.micro.service.auth;
+option go_package=".;auth";
+
+service Auth {
+  rpc Register(User)returns(UserEntity);
+}
+
+message User {
+  string username = 1;
+  string mobile_phone = 2;
+  string password = 3;
+}
+
+message UserEntity {
+  uint32 id = 1;
+  User user = 2;
+}

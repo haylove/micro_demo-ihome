@@ -23,6 +23,7 @@ func InitRouter() *gin.Engine {
 		api.GET("/session", user.GetSession)
 		api.GET("/imagecode/:uuid", code.GetImageCode)
 		api.GET("/smscode/:phone", code.GetSmsCode)
+		api.POST("/users", user.Register)
 	}
 
 	return router

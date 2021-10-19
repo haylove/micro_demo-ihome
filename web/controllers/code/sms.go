@@ -8,10 +8,8 @@ package code
 
 import (
 	"context"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/go-plugins/registry/consul/v2"
 	"net/http"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 
@@ -19,6 +17,17 @@ import (
 	"web/response"
 	"web/utils"
 )
+
+var (
+	smsService   smscode.SmsCodeService
+	phoneCompile *regexp.Regexp
+)
+
+func init() {
+	phoneCompile = regexp.MustCompile(`^1[3-9]\d{9}$`)
+	client := utils.NewClient()
+	smsService = smscode.NewSmsCodeService("go.micro.service.code", client.Client())
+}
 
 func GetSmsCode(ctx *gin.Context) {
 	phone := ctx.Param("phone")
@@ -32,27 +41,21 @@ func GetSmsCode(ctx *gin.Context) {
 
 	imgUuid := ctx.Query("id")
 	correct, err := checkImgCode(imgUuid, verifyCode)
+	//fmt.Println(correct)
 	if err != nil || !correct {
 		response.Err(ctx, http.StatusBadRequest, utils.RECODE_PARAMERR)
 		return
 	}
 
-	server := getSmsServer()
-	_, err = server.SendSms(context.TODO(), &smscode.SmsRequest{Phone: phone})
-	if err != nil {
-		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_UNKNOWERR)
-		return
-	}
-	response.Normal(ctx, http.StatusOK, gin.H{"msg": "发送成功"})
+	_, _ = smsService.SendSms(context.TODO(), &smscode.SmsRequest{Phone: phone})
+
+	response.Normal(ctx, http.StatusOK, gin.H{"errno": "0000", "errmsg": "发送成功"})
 }
 
-func getSmsServer() smscode.SmsCodeService {
-	newRegistry := consul.NewRegistry(registry.Addrs("127.0.0.1:8500"))
-	// New Service
-	client := micro.NewService(
-		micro.Registry(newRegistry),
-	)
-
-	service := smscode.NewSmsCodeService("go.micro.service.code", client.Client())
-	return service
+func CheckSmsCode(key, code string) (correct bool, err error) {
+	checkResponse, err := smsService.Check(context.TODO(), &smscode.CheckRequest{SmsCode: code, Phone: key})
+	if err != nil {
+		return false, err
+	}
+	return checkResponse.IsCorrect, nil
 }

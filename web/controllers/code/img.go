@@ -10,33 +10,23 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"image/png"
-	"net/http"
-	"regexp"
-
 	"github.com/afocus/captcha"
 	"github.com/gin-gonic/gin"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/go-plugins/registry/consul/v2"
-
+	"image/png"
+	"net/http"
 	"web/proto/imgCode"
 	"web/response"
 	"web/utils"
 )
 
-var phoneCompile *regexp.Regexp
-
-func init() {
-	phoneCompile = regexp.MustCompile(`^1[3-9]\d{9}$`)
-}
+var (
+	imgServer imgCode.ImgCodeService
+)
 
 func GetImageCode(ctx *gin.Context) {
 	uuid := ctx.Param("uuid")
 
-	service := getImgServer()
-
-	call, err := service.Get(context.TODO(), &imgCode.Request{Uuid: uuid})
+	call, err := imgServer.Get(context.TODO(), &imgCode.Request{Uuid: uuid})
 	fmt.Println(err)
 	if err != nil {
 		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_UNKNOWERR)
@@ -53,20 +43,13 @@ func GetImageCode(ctx *gin.Context) {
 	_ = png.Encode(ctx.Writer, img)
 }
 
-func getImgServer() imgCode.ImgCodeService {
-	newRegistry := consul.NewRegistry(registry.Addrs("127.0.0.1:8500"))
-	// New Service
-	client := micro.NewService(
-		micro.Registry(newRegistry),
-	)
-
-	service := imgCode.NewImgCodeService("go.micro.service.code", client.Client())
-	return service
+func init() {
+	client := utils.NewClient()
+	imgServer = imgCode.NewImgCodeService("go.micro.service.code", client.Client())
 }
 
 func checkImgCode(key, code string) (correct bool, err error) {
-	service := getImgServer()
-	checkResponse, err := service.Check(context.TODO(), &imgCode.CheckRequest{ImgCode: code, Uuid: key})
+	checkResponse, err := imgServer.Check(context.TODO(), &imgCode.CheckRequest{ImgCode: code, Uuid: key})
 	if err != nil {
 		return false, err
 	}
