@@ -1,10 +1,11 @@
 syntax = "proto3";
 
 package go.micro.service.auth;
-option go_package=".;auth";
+option go_package = ".;auth";
 
 service Auth {
   rpc Register(User)returns(UserEntity);
+  rpc Login(LoginReq)returns(LoginRes);
 }
 
 message User {
@@ -17,3 +18,19 @@ message UserEntity {
   uint32 id = 1;
   User user = 2;
 }
+
+message LoginReq{
+  string username = 1;
+  string password = 2;
+}
+
+message LoginRes{
+  bool login_success = 1;
+  Msg msg = 2;
+}
+
+message Msg{
+  string token = 1;
+  int32 expire_in_sec = 2;
+}
+

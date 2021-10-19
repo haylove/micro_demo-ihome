@@ -79,10 +79,36 @@ func (c *AuthController) Register(ctx *gin.Context) {
 	response.Normal(ctx, http.StatusOK, userEntity)
 }
 
-func GetSession(ctx *gin.Context) {
-	response.Err(ctx, http.StatusOK, utils.RECODE_SESSIONERR)
+func (c *AuthController) Login(ctx *gin.Context) {
+	var ReqData struct {
+		Username string `json:"username"`
+		PassWord string `json:"password"`
+	}
+	_ = ctx.Bind(&ReqData)
+	if ReqData.Username == "" || ReqData.PassWord == "" {
+		response.Err(ctx, http.StatusBadRequest, utils.RECODE_PARAMERR)
+		return
+	}
+	login, err := c.userService.Login(context.TODO(), &user.LoginReq{
+		Username: ReqData.Username,
+		Password: ReqData.PassWord,
+	})
+	if err != nil {
+		response.Err(ctx, http.StatusInternalServerError, utils.RECODE_SERVERERR)
+		return
+	}
+	if !login.LoginSuccess {
+		response.Err(ctx, http.StatusUnauthorized, utils.RECODE_LOGINERR)
+		return
+	}
+	response.Normal(ctx, http.StatusOK, login)
+
 }
 
 func Register(ctx *gin.Context) {
 	DefaultController.Register(ctx)
+}
+
+func Login(ctx *gin.Context) {
+	DefaultController.Login(ctx)
 }

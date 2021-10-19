@@ -20,10 +20,11 @@ func InitRouter() *gin.Engine {
 
 	api := router.Group("/api/v1.0")
 	{
-		api.GET("/session", user.GetSession)
+		//api.GET("/session", user.GetSession)
 		api.GET("/imagecode/:uuid", code.GetImageCode)
 		api.GET("/smscode/:phone", code.GetSmsCode)
 		api.POST("/users", user.Register)
+		api.POST("/login", user.Login)
 	}
 
 	return router

@@ -23,7 +23,9 @@ func Err(ctx *gin.Context, statusCode int, ErrCode utils.ErrCode) {
 func Normal(ctx *gin.Context, statusCode int, data interface{}) {
 	ctx.JSON(statusCode,
 		gin.H{
-			"data": data,
+			"errno":  0,
+			"errmsg": "",
+			"data":   data,
 		},
 	)
 }

@@ -7,8 +7,7 @@
 package dao
 
 import (
-	"crypto/md5"
-	"encoding/hex"
+	"auth/utils/hash"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -45,14 +44,12 @@ func NewUserManger(driverName, dataSourceName string) (*UserManger, error) {
 }
 
 func (m *UserManger) CreateUser(user *auth.User) (*models.User, error) {
-	//password 加密
-	hash := md5.New()
-	hash.Write([]byte(user.Password))
-	encodeToString := hex.EncodeToString(hash.Sum(nil))
+
+	password := hash.Encryption(user.Password)
 
 	u := &models.User{
 		Name:         user.MobilePhone,
-		PasswordHash: encodeToString,
+		PasswordHash: password,
 		Mobile:       user.MobilePhone,
 	}
 
@@ -67,4 +64,13 @@ func (m *UserManger) UpdateUser() {}
 
 func (m *UserManger) DeleteUser() {}
 
-func (m *UserManger) GetUser() {}
+func (m *UserManger) GetUser(user *auth.LoginReq) (*models.User, bool) {
+	var u models.User
+	u.Name = user.Username
+	u.PasswordHash = hash.Encryption(user.Password)
+	result := m.db.First(&u)
+	if result.Error != nil {
+		return nil, false
+	}
+	return &u, true
+}
