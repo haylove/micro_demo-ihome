@@ -2,12 +2,7 @@ package handler
 
 import (
 	"context"
-	"io/ioutil"
-	"os"
-	"strconv"
 	"time"
-
-	"github.com/dgrijalva/jwt-go"
 
 	"auth/dao"
 	user "auth/proto/user"
@@ -46,22 +41,11 @@ func (u *User) Login(ctx context.Context, req *user.LoginReq, res *user.LoginRes
 		return nil
 
 	}
-	file, err := os.Open("config/test.privateKey")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
 
-	readAll, err := ioutil.ReadAll(file)
-	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM(readAll)
-	if err != nil {
-		return err
-	}
-
-	gen := token.NewJWTTokenGen("ihome", privateKey)
 	expire := time.Hour * 24
 
-	generateToken, err := gen.GenerateToken(strconv.Itoa(int(getUser.ID)), expire)
+	generateToken, err := token.DefaultTokenGen.GenerateToken(getUser, expire)
+
 	if err != nil {
 		return err
 	}

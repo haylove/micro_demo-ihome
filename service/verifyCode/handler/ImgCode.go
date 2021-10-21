@@ -7,9 +7,9 @@ import (
 
 	"github.com/afocus/captcha"
 
-	"VerifyCode/dao"
-	"VerifyCode/proto/imgCode"
-	"VerifyCode/utils"
+	"verifyCode/dao"
+	"verifyCode/proto/imgCode"
+	"verifyCode/utils"
 )
 
 type ImgCode struct{}

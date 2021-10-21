@@ -7,8 +7,9 @@
 package dao
 
 import (
-	"github.com/gomodule/redigo/redis"
 	"strings"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 var redisPool = redis.Pool{

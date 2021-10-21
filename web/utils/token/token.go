@@ -24,7 +24,11 @@ type JWTTokenVerifier struct {
 
 func (j *JWTTokenVerifier) Verify(token interface{}) (interface{}, error) {
 	tokenString := token.(string)
-	t, err := jwt.ParseWithClaims(tokenString, &jwt.StandardClaims{},
+	type cusClaim struct {
+		jwt.StandardClaims
+		Data interface{} `json:"data"`
+	}
+	t, err := jwt.ParseWithClaims(tokenString, &cusClaim{},
 		func(t *jwt.Token) (interface{}, error) {
 			return j.PublicKey, nil
 		},
@@ -37,7 +41,7 @@ func (j *JWTTokenVerifier) Verify(token interface{}) (interface{}, error) {
 		return nil, fmt.Errorf("token not valid")
 	}
 
-	claims, ok := t.Claims.(*jwt.StandardClaims)
+	claims, ok := t.Claims.(*cusClaim)
 	if !ok {
 		return nil, fmt.Errorf("token claims err")
 	}

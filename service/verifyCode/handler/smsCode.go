@@ -10,9 +10,9 @@ import (
 	"context"
 	"fmt"
 
-	"VerifyCode/dao"
-	smscode "VerifyCode/proto/smsCode"
-	"VerifyCode/utils"
+	"verifyCode/dao"
+	smscode "verifyCode/proto/smsCode"
+	"verifyCode/utils"
 )
 
 type SmsCode struct{}

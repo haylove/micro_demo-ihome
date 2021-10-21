@@ -1,4 +1,4 @@
-module VerifyCode
+module verifyCode
 
 go 1.14
 
